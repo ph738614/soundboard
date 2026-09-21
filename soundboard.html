@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    margin: 0;
+    background: transparent;
+    font-family: Arial, sans-serif;
+}
+
+.soundboard {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    height: 180px;
+}
+
+button {
+    flex: 1;
+    border: none;
+    border-radius: 15px;
+    background: #222;
+    color: white;
+    font-size: 70px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+</style>
+</head>
+
+<body>
+
+<div class="soundboard">
+
+<button onclick="play('10.mp3')">10</button>
+<button onclick="play('mute.mp3')">🔇</button>
+<button onclick="play('angry.mp3')">😠</button>
+<button onclick="play('elevator.mp3')">🛗</button>
+<button onclick="play('attention.mp3')">📣</button>
+
+</div>
+
+<script>
+let currentSound = null;
+let currentFile = null;
+
+function play(file) {
+
+    // If clicking the same button, stop the sound
+    if (currentSound && currentFile === file) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
+        currentSound = null;
+        currentFile = null;
+        return;
+    }
+
+    // Stop whatever is currently playing
+    if (currentSound) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
+    }
+
+    // Play the new sound
+    currentSound = new Audio(file);
+    currentFile = file;
+    currentSound.play();
+
+    // Clear the player when the sound finishes
+    currentSound.onended = function() {
+        currentSound = null;
+        currentFile = null;
+    };
+}
+</script>
+</body>
+</html>
